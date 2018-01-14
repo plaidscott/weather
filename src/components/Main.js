@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import CurrentWeather from './CurrentWeather';
 import Forecast from './Forecast';
-import AirPollution from './AirPollution';
+// import AirPollution from './AirPollution';
 import UVIndex from './UVIndex.js';
+import TempuratureMap from './TempuratureMap.js'
 
 import api from '../utils/api';
 
@@ -15,7 +16,7 @@ class Main extends Component {
     this.state = {
       key: 1,
       mapKey: 1,
-      locationSearchValue: "",
+      locationSearchValue: "New York",
       countryCode: "usa",
       unit: 'imperial',
       weatherData: {
@@ -26,6 +27,10 @@ class Main extends Component {
           temp_max: 80,
           humidity: 75
         },
+        coord: {
+          lon: -73.99,
+          lat: 40.73
+        },
         weather: [{
           description: "scattered clouds",
           icon: "03n"
@@ -33,7 +38,7 @@ class Main extends Component {
       },
       forecast: {
         city: {
-          name: "Los Angeles"
+          name: "New York"
         },
         list: [
           {
@@ -52,7 +57,17 @@ class Main extends Component {
           }
         ],
 
-      }
+      },
+      uvIndex: 1,
+      uvIndexForecast: [
+        {date_iso: 'abcdefghijklmnop'},
+        {date_iso: 'abcdefghijklmnop'},
+        {date_iso: 'abcdefghijklmnop'},
+        {date_iso: 'abcdefghijklmnop'},
+        {date_iso: 'abcdefghijklmnop'},
+        {date_iso: 'abcdefghijklmnop'},
+        {date_iso: 'abcdefghijklmnop'}
+    ]
     }
     this.handleMainTabSelect = this.handleMainTabSelect.bind(this);
     this.handleMapTabSelect = this.handleMapTabSelect.bind(this);
@@ -60,6 +75,8 @@ class Main extends Component {
     this.handleSearchValueInput = this.handleSearchValueInput.bind(this);
     this.handleLocationSearch = this.handleLocationSearch.bind(this);
     this.handleGetForecast = this.handleGetForecast.bind(this);
+    this.handleGetUV = this.handleGetUV.bind(this);
+    this.handleGetUVForecast = this.handleGetUVForecast.bind(this);
   }
 
   handleMainTabSelect(key) {
@@ -71,6 +88,7 @@ class Main extends Component {
   handleGetCurrentWeather() {
     api.getCurrentWeather(this.state.locationSearchValue, this.state.countryCode, this.state.unit)
       .then( response => {
+        // console.log('response in getCurrentWeather', response);
         this.setState({
           weatherData: response,
           key: 1,
@@ -81,13 +99,31 @@ class Main extends Component {
   handleGetForecast() {
     api.getForecast(this.state.locationSearchValue, this.state.countryCode, this.state.unit)
       .then( response => {
-        console.log('response in handleGetForecast main.js', response );
+        // console.log('response in handleGetForecast main.js', response );
         this.setState({
           forecast: response,
           key: 1,
           mapKey: 1
         })
       })
+  }
+  handleGetUV() {
+    // console.log('this.state.weatherData.weather.coord', this.state.weatherData);
+    api.getUV(this.state.weatherData.coord.lat, this.state.weatherData.coord.lon)
+      .then( response => {
+        // console.log('response in handleGetUV in Main', response);
+        this.setState({
+          uvIndex: response.value
+        })
+      })
+  }
+  handleGetUVForecast() {
+    api.getUVForecast(this.state.weatherData.coord.lat, this.state.weatherData.coord.lon)
+      .then( response => {
+          this.setState({
+            uvIndexForecast: response
+          })
+      });
   }
   handleSearchValueInput(e) {
     this.setState({
@@ -100,7 +136,15 @@ class Main extends Component {
     if(e.keyCode === 13) {
       this.handleGetCurrentWeather();
       this.handleGetForecast();
+      this.handleGetUV();
+
     }
+  }
+  componentDidMount() {
+    this.handleGetCurrentWeather();
+    this.handleGetForecast();
+    this.handleGetUV();
+    this.handleGetUVForecast();
   }
 
 
@@ -122,21 +166,31 @@ class Main extends Component {
                   onChange={this.handleSearchValueInput}
                   onKeyUp={this.handleLocationSearch}
                   ></FormControl>
-                <Button onClick={this.handleGetCurrentWeather}><span className="fa fa-search"></span></Button>
+                <Button onClick={this.handleLocationSearch}><span className="fa fa-search"></span></Button>
               </Col>
             </Row>
             <Row>
               <Col sm={7} md={7} lg={7} xl={7}>
                 <Tabs activeKey={this.state.key}  onSelect={this.handleMainTabSelect} id="mainTabs">
-                  <Tab eventKey={1} title="Current weather"><CurrentWeather weatherData={this.state.weatherData}/></Tab>
-                  <Tab eventKey={2} title="5-Day Forecast"><Forecast forecast={this.state.forecast}/></Tab>
-                  <Tab eventKey={3} title="Air Pollution"><AirPollution/></Tab>
-                  <Tab eventKey={4} title="UV Index"><UVIndex/></Tab>
+                  <Tab eventKey={1} title="Current weather" ><CurrentWeather
+                    weatherData={this.state.weatherData}/>
+                  </Tab>
+                  <Tab eventKey={2} title="5-Day Forecast" ><Forecast
+                    forecast={this.state.forecast}/>
+                  </Tab>
+                  <Tab eventKey={3} title="UV Index" ><UVIndex
+                    uvIndex={this.state.uvIndex}
+                    uvIndexForecast={this.state.uvIndexForecast}/>
+                  </Tab>
                 </Tabs>
               </Col>
               <Col sm={5} md={5} lg={5} xl={5} >
                 <Tabs activeKey={this.state.mapKey} onSelect={this.handleMapTabSelect} id='mapTabs'>
-                  <Tab eventKey={1} title="Temperature Map"></Tab>
+                  <Tab eventKey={1} title="Temperature Map">
+                    <TempuratureMap
+                        weatherData={this.state.weatherData}
+                      />
+                  </Tab>
                   <Tab eventKey={2} title="Precipitation Map"></Tab>
                 </Tabs>
               </Col>

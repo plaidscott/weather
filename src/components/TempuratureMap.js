@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-class AirPollution extends Component {
+class TempuratureMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+
     }
   }
   render() {
     return (
-      <div className="AirPollution">
-        <div>hi there from AirPollution</div>
+      <div className="TempuratureMap">
+        <div>hi there from TempuratureMap</div>
       </div>
     );
   }
 }
 
-export default AirPollution;
+export default TempuratureMap;
