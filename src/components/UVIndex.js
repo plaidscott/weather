@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { AreaChart } from 'react-easy-chart';
-let dayOfWeek = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
 class UVIndex extends Component {
 
@@ -26,8 +25,7 @@ class UVIndex extends Component {
                 { x: this.props.uvIndexForecast[2].date_iso.slice(7,10), y: this.props.uvIndexForecast[2].value},
                 { x: this.props.uvIndexForecast[3].date_iso.slice(7,10), y: this.props.uvIndexForecast[3].value},
                 { x: this.props.uvIndexForecast[4].date_iso.slice(7,10), y: this.props.uvIndexForecast[4].value},
-                { x: this.props.uvIndexForecast[5].date_iso.slice(7,10), y: this.props.uvIndexForecast[5].value},
-                { x: this.props.uvIndexForecast[6].date_iso.slice(7,10), y: this.props.uvIndexForecast[6].value}
+                { x: this.props.uvIndexForecast[5].date_iso.slice(7,10), y: this.props.uvIndexForecast[5].value}
               ]
             ]}
           />

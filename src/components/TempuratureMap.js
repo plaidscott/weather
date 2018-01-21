@@ -8,6 +8,7 @@ class TempuratureMap extends Component {
     }
   }
   render() {
+    console.log('this.props in TempuratureMap', this.props);
     return (
       <div className="TempuratureMap">
         <div>hi there from TempuratureMap</div>
