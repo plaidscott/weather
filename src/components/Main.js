@@ -143,7 +143,7 @@ class Main extends Component {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Row className='col-md-offset-4'>
+                <Row className=' col-lg-offset-1'>
                   <Col sm={6} md={6} lg={6} xl={6}>
                     <Tabs activeKey={this.state.key}  onSelect={this.handleMainTabSelect} id="mainTabs">
                       <Tab eventKey={1} title="Current weather" ><CurrentWeather
@@ -158,11 +158,11 @@ class Main extends Component {
                       </Tab>
                     </Tabs>
                   </Col>
-
+                  <Col sm={12} md ={12} lg={4} xl={4}>
+                    <Image src={this.state.weatherImage} rounded responsive style={{ maxHeight: '400px', maxWidth: '400px'}}/>
+                  </Col>
                 </Row>
-                <div>
-                  <Image src={this.state.weatherImage} rounded sm={8} md ={8} lg={8} xl={8} style={{ maxHeight: '400px'}}/>
-                </div>
+
               </Jumbotron>
             </Col>
           </div>
