@@ -3,3 +3,5 @@ and you'll be able to see the current weather, 5 day forecast, and a 7-day forec
 there's a nice picture that changes with the weather.
 
 Thanks to openweathermap.com and GithubPages.
+
+Enjoy!
