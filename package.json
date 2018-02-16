@@ -2,6 +2,7 @@
   "name": "weather",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://plaidscott.github.io/weather",
   "dependencies": {
     "axios": "^0.17.1",
     "font-awesome": "github:fortawesome/Font-Awesome",
@@ -11,11 +12,14 @@
     "react-easy-chart": "^1.0.0",
     "react-fontawesome": "^1.6.1",
     "react-scripts": "1.0.17"
+
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
