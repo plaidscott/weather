@@ -159,7 +159,7 @@ class Main extends Component {
                     </Tabs>
                   </Col>
                   <Col sm={12} md ={12} lg={4} xl={4}>
-                    <Image src={this.state.weatherImage} rounded responsive style={{ maxHeight: '400px', maxWidth: '400px'}}/>
+                    <Image className="WeatherImage" src={this.state.weatherImage} rounded responsive style={{ maxHeight: '400px', maxWidth: '400px'}}/>
                   </Col>
                 </Row>
 
